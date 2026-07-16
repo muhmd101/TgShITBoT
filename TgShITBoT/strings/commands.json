@@ -1,0 +1,17 @@
+{
+    "ping": "ping",
+    "alive": "alive",
+    "id": ["id", "whois"],
+    "eval": ["eval", "exec", "run"],
+    "selfdestruct": ["selfdestruct", "sd"],
+    "mute": ["mute"],
+    "unmute": ["unmute"],
+    "ban": ["ban"],
+    "unban": ["unban"],
+    "kick": ["kick"],
+    "mutedlist": ["mutedlist", "muted"],
+    "unmuteall": "unmuteall",
+    "carbon": ["carbon", "cb"],
+    "autoreact": ["autoreact", "ar"],
+    "help": ["help", "h"]
+}
