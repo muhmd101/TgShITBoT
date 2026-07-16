@@ -20,6 +20,9 @@ async def toggle_auto_react(user: client.Client, msg: Message):
     args = msg.command[1:]
     current = await user.db.get_auto_react()
 
+    if args and args[0].lower() == "set":
+        args = args[1:]
+
     if args:
         arg = args[0].lower()
         if arg in ("on", "enable", "true"):
@@ -49,7 +52,7 @@ async def toggle_auto_react(user: client.Client, msg: Message):
 async def auto_react_handler(user: client.Client, msg: Message):
     if not await user.db.get_auto_react():
         return
-    if random.random() > 0.7:
+    if random.random() > 0.4:
         return
     emoji = random.choice(REACTION_EMOJIS)
     try:
