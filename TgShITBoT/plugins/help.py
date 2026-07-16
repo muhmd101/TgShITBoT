@@ -29,7 +29,6 @@ CATEGORIES = {
     "Utility": {
         "emoji": "settings",
         "commands": {
-            "carbon": "render code as an image (reply/text)",
             "selfdestruct": "toggle saving self-destruct media",
             "autoreact": "toggle auto-react on private messages",
         },
