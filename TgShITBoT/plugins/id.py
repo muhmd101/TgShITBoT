@@ -4,7 +4,6 @@ from TgShITBoT.config import PREFIXES
 from pyrogram import filters, client, types
 from TgShITBoT.Client import app
 from pyrogram.types import Message, Animation
-from pyrogram.file_id import FileId
 
 
 @app.on_message(
@@ -66,18 +65,13 @@ async def get_id(user: client.Client, msg: Message):
 
     photo_slides = []
     async for item in user.get_chat_photos(target.id, limit=10):
-        file_id = getattr(item, "file_id", None)
-        if not file_id:
-            continue
-        try:
-            decoded = FileId.decode(file_id)
-            media_id = decoded.media_id
-        except Exception:
+        unique_id = getattr(item, "file_unique_id", None)
+        if not unique_id:
             continue
         if isinstance(item, Animation):
-            photo_slides.append(f"![](tg://video?id={media_id})")
+            photo_slides.append(f"![](tg://video?id={unique_id})")
         else:
-            photo_slides.append(f"![](tg://photo?id={media_id})")
+            photo_slides.append(f"![](tg://photo?id={unique_id})")
 
     if photo_slides:
         slides = "\n".join(photo_slides)
