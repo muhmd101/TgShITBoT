@@ -44,6 +44,7 @@ async def alive(user: client.Client, msg: Message):
         f"{get_emoji('spark', markdown=True)} **Python:** `{platform.python_version()}`\n"
         f"{get_emoji('settings', markdown=True)} **OS:** `{platform.system()} {platform.release()}`\n"
         f"{get_emoji('brain', markdown=True)} **CPU Usage:** `{psutil.cpu_percent()}%`\n"
+        f"{get_emoji('github', markdown=True)} **Source:** [GitHub](https://github.com/muhmd101/TgShITBoT)\n"
         f"{get_emoji('zzz', markdown=True)} **RAM Usage:** `{get_ram_usage()}`\n\n"
         f"{get_emoji('who', markdown=True)} **Owner:** {msg.from_user.mention}"
     )
