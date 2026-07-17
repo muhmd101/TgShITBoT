@@ -6,7 +6,7 @@ logging.basicConfig(
     datefmt="%d-%b-%y %H:%M:%S",
 )
 
-logging.getLogger("pyrogram").setLevel(logging.CRITICAL)
+# logging.getLogger("pyrogram").setLevel(logging.CRITICAL)
 
 def LOGGER(name: str) -> logging.Logger:
     return logging.getLogger(name)
