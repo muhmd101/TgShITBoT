@@ -1,10 +1,9 @@
 from TgShITBoT.utils.registration import estimate_registration_date
+from pyrogram.types import Message, LinkPreviewOptions
 from TgShITBoT.strings import cmds, get_emoji
 from TgShITBoT.config import PREFIXES
-from pyrogram import filters, client, types
+from pyrogram import filters, client
 from TgShITBoT.Client import app
-from pyrogram.types import Message, Animation
-
 
 @app.on_message(
     filters.command(
@@ -14,7 +13,6 @@ from pyrogram.types import Message, Animation
     & filters.me
 )
 async def get_id(user: client.Client, msg: Message):
-    chat_id = msg.chat.id
     if msg.reply_to_message:
         target = msg.reply_to_message.from_user
     elif len(msg.command) > 1:
@@ -62,23 +60,9 @@ async def get_id(user: client.Client, msg: Message):
         common = await user.get_common_chats(target.id)
         if len(common):
             caption += f"\n{get_emoji('leopard', markdown=True)} **Common groups:** `{len(common)}`"
-
-    photo_slides = []
-    async for item in user.get_chat_photos(target.id, limit=10):
-        unique_id = getattr(item, "file_unique_id", None)
-        if not unique_id:
-            continue
-        if isinstance(item, Animation):
-            photo_slides.append(f"![](tg://video?id={unique_id})")
-        else:
-            photo_slides.append(f"![](tg://photo?id={unique_id})")
-
-    if photo_slides:
-        slides = "\n".join(photo_slides)
-        caption = f"<tg-slideshow>\n\n{slides}\n\n</tg-slideshow>\n\n" + caption
-
-    await msg.delete()
-    await user.send_rich_message(
-        chat_id=chat_id,
-        rich_message=types.InputRichMessage(markdown=caption),
+    await msg.edit_text(
+        text=caption,
+        link_preview_options=LinkPreviewOptions(
+            is_disabled=True
+        )
     )
