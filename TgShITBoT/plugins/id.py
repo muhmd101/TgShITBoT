@@ -1,8 +1,8 @@
 from TgShITBoT.utils.registration import estimate_registration_date
-from pyrogram.types import Message, LinkPreviewOptions
 from TgShITBoT.strings import cmds, get_emoji
+from pyrogram import filters, client, types
 from TgShITBoT.config import PREFIXES
-from pyrogram import filters, client
+from pyrogram.types import Message
 from TgShITBoT.Client import app
 
 
@@ -14,6 +14,7 @@ from TgShITBoT.Client import app
     & filters.me
 )
 async def get_id(user: client.Client, msg: Message):
+    chat_id = msg.chat.id
     if msg.reply_to_message:
         target = msg.reply_to_message.from_user
     elif len(msg.command) > 1:
@@ -26,10 +27,6 @@ async def get_id(user: client.Client, msg: Message):
     )
     registration_str = registration_date.strftime("%Y-%m")
     usernames = set()
-    if target.username:
-        usernames.add(
-            f"@{target.username}"
-        )
     if target.usernames:
         for username in target.usernames:
             usernames.add(f"@{username.username}")
@@ -61,9 +58,16 @@ async def get_id(user: client.Client, msg: Message):
         common = await user.get_common_chats(target.id)
         if len(common):
             caption += f"\n{get_emoji('leopard', markdown=True)} **Common groups:** `{len(common)}`"
-    await msg.edit_text(
-        text=caption,
-        link_preview_options=LinkPreviewOptions(
-            is_disabled=True
-        )
+    photo_file_ids = []
+    async for photo in user.get_chat_photos(target.id, limit=10):
+        file_id = getattr(photo, "file_id", None)
+        if file_id:
+            photo_file_ids.append(file_id)
+    if photo_file_ids:
+        slides = "\n".join(f"![](tg://photo?id={fid})" for fid in photo_file_ids)
+        caption += f"\n\n<tg-slideshow>\n\n{slides}\n\n</tg-slideshow>"
+    await msg.delete()
+    await user.send_rich_message(
+        chat_id=chat_id,
+        rich_message=types.InputRichMessage(markdown=caption),
     )
