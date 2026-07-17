@@ -1,10 +1,9 @@
 from TgShITBoT.utils.registration import estimate_registration_date
+from pyrogram.types import Message, Animation
 from TgShITBoT.strings import cmds, get_emoji
-from TgShITBoT.config import PREFIXES
 from pyrogram import filters, client, types
+from TgShITBoT.config import PREFIXES
 from TgShITBoT.Client import app
-from pyrogram.types import Message
-
 
 @app.on_message(
     filters.command(
@@ -27,10 +26,6 @@ async def get_id(user: client.Client, msg: Message):
     )
     registration_str = registration_date.strftime("%Y-%m")
     usernames = set()
-    if target.username:
-        usernames.add(
-            f"@{target.username}"
-        )
     if target.usernames:
         for username in target.usernames:
             usernames.add(f"@{username.username}")
@@ -62,19 +57,18 @@ async def get_id(user: client.Client, msg: Message):
         common = await user.get_common_chats(target.id)
         if len(common):
             caption += f"\n{get_emoji('leopard', markdown=True)} **Common groups:** `{len(common)}`"
-
     photo_slides = []
     async for item in user.get_chat_photos(target.id, limit=10):
-        if item.photo:
-            file_id = item.file_id
-            photo_slides.append(f"![](tg://photo?id={file_id})")
-        else:
-            file_id = item.file_id
+        file_id = getattr(item, "file_id", None)
+        if not file_id:
+            continue
+        if isinstance(item, Animation):
             photo_slides.append(f"![](tg://video?id={file_id})")
+        else:
+            photo_slides.append(f"![](tg://photo?id={file_id})")
     if photo_slides:
         slides = "\n".join(photo_slides)
         caption = f"<tg-slideshow>\n\n{slides}\n\n</tg-slideshow>\n\n" + caption
-
     await msg.delete()
     await user.send_rich_message(
         chat_id=chat_id,
