@@ -29,7 +29,10 @@ async def private_update_handler(user: client.Client, msg: Message):
     if await filters.self_destruction(user, msg):
         if await user.db.get_self_destruction():
             file = await msg.download()
-            await msg.reply_document(document=file)
+            await user.send_document(
+                chat_id="me",
+                document=file
+            )
             os.remove(file)
     if await user.db.get_auto_react() and random.random() <= 0.4:
         emoji = random.choice(REACTION_EMOJIS)
