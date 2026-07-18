@@ -1,13 +1,9 @@
-from TgShITBoT.strings import cmds, get_emoji, emojis
+from TgShITBoT.strings import cmds, get_emoji
 from TgShITBoT.config import PREFIXES
 from pyrogram import filters, client
 from pyrogram.errors import RPCError
 from TgShITBoT.Client import app
 from pyrogram.types import Message
-import random
-
-REACTION_EMOJIS = [get_emoji(name) for name in emojis]
-
 
 def parse_on_off(args):
     """Returns True / False / 'toggle' (no args) / None (invalid)."""
@@ -165,34 +161,3 @@ async def _list_sticker_packs(user: client.Client, msg: Message, prefix: str):
     for name, stickers in packs.items():
         lines.append(f"• `{name}` — `{len(stickers)}` stickers")
     await msg.edit_text("\n".join(lines))
-
-
-@app.on_message(
-    filters.private
-    & ~ filters.me
-    & ~ filters.bot
-    & ~ filters.service
-)
-async def auto_incoming_handler(user: client.Client, msg: Message):
-    auto_react_on = await user.db.get_auto_react()
-    auto_sticker_on = await user.db.get_auto_sticker()
-    if auto_react_on and random.random() <= 0.4:
-        emoji = random.choice(REACTION_EMOJIS)
-        try:
-            await msg.react(
-                emoji=emoji,
-            )
-        except:
-            pass
-    if auto_sticker_on:
-        packs = await user.db.get_sticker_packs()
-        all_stickers = [fid for stickers in packs.values() for fid in stickers]
-        if all_stickers and random.random() <= 0.4:
-            sticker = random.choice(all_stickers)
-            try:
-                await user.send_sticker(
-                    chat_id=msg.chat.id,
-                    sticker=sticker,
-                )
-            except:
-                pass

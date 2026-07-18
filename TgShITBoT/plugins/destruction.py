@@ -3,18 +3,6 @@ from TgShITBoT.config import PREFIXES
 from pyrogram import filters, client
 from TgShITBoT.Client import app
 from pyrogram.types import Message
-import os
-
-@app.on_message(
-    filters.private
-    & ~filters.me
-    & filters.self_destruction
-)
-async def self_destruction(user: client.Client, msg: Message):
-    if await user.db.get_self_destruction():
-        file = await msg.download()
-        await msg.reply_document(document=file)
-        os.remove(file)
 
 @app.on_message(
     filters.command(
