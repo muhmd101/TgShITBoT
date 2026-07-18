@@ -12,6 +12,6 @@
     "mutedlist": ["muted"],
     "unmuteall": ["unmuteall"],
     "carbon": ["carbon", "cb"],
-    "autoreact": ["autoreact", "ar"],
+    "auto": ["auto"],
     "help": ["help", "h"]
 }
