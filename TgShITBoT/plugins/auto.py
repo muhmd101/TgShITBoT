@@ -69,7 +69,7 @@ async def _handle_react(user: client.Client, msg: Message, args, prefix: str):
     status = "enabled" if new_state else "disabled"
     emoji = "CheckMark" if new_state else "CrossMark"
     await msg.edit_text(
-        f"{get_emoji(emoji, markdown=True)} **Auto-react {status}.**"
+        f"{get_emoji(emoji, markdown=True)} **Auto React {status}.**"
     )
 
 
@@ -96,7 +96,7 @@ async def _handle_sticker(user: client.Client, msg: Message, args, prefix: str):
     status = "enabled" if new_state else "disabled"
     emoji = "CheckMark" if new_state else "CrossMark"
     await msg.edit_text(
-        f"{get_emoji(emoji, markdown=True)} **Auto-sticker {status}.**"
+        f"{get_emoji(emoji, markdown=True)} **Auto Sticker {status}.**"
     )
 
 
