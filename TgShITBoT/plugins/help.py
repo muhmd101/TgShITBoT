@@ -30,7 +30,16 @@ CATEGORIES = {
         "emoji": "settings",
         "commands": {
             "selfdestruct": "toggle saving self-destruct media",
-            "autoreact": "toggle auto-react on private messages",
+        },
+    },
+    "Auto": {
+        "emoji": "settings",
+        "commands": {
+            "auto react set on/off": "toggle auto-react on private messages",
+            "auto sticker set on/off": "toggle auto-sticker on private messages",
+            "auto sticker pack": "reply to a sticker to add its pack",
+            "auto sticker packs": "list added sticker packs",
+            "auto sticker pack remove": "reply to a sticker to remove its pack",
         },
     },
 }
@@ -44,7 +53,7 @@ CATEGORIES = {
     & filters.me
 )
 async def help_menu(user: client.Client, msg: Message):
-    prefix = PREFIXES[0]
+    prefix = msg.text[0]
     prefixes_str = " ".join(f"`{p}`" for p in PREFIXES)
     lines = [
         f"{get_emoji('TgAnimatedLogo', markdown=True)} **{PROJECT_NAME} — Commands**",
@@ -58,6 +67,7 @@ async def help_menu(user: client.Client, msg: Message):
             formatted = " / ".join(f"`{prefix}{a}`" for a in aliases)
             lines.append(f"• {formatted} - {description}")
         lines.append("")
+
     lines.append(f"{get_emoji('who', markdown=True)} **Help**")
     help_aliases = cmds["help"]
     help_aliases = [help_aliases] if isinstance(help_aliases, str) else list(help_aliases)
