@@ -71,3 +71,19 @@ class DataBase:
             file_ids = await self.redis.smembers(self._k(f"sticker_pack:{name}"))
             packs[name] = list(file_ids)
         return packs
+
+    async def add_muted_global(self, user_id: int) -> None:
+        await self.redis.sadd(self._k("muted_global"), user_id)
+
+    async def remove_muted_global(self, user_id: int) -> None:
+        await self.redis.srem(self._k("muted_global"), user_id)
+
+    async def get_muted_global(self) -> list[int]:
+        members = await self.redis.smembers(self._k("muted_global"))
+        return [int(m) for m in members]
+
+    async def clear_muted_global(self) -> None:
+        await self.redis.delete(self._k("muted_global"))
+
+    async def is_muted_global(self, user_id: int) -> bool:
+        return await self.redis.sismember(self._k("muted_global"), user_id)
