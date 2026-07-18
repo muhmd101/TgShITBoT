@@ -47,7 +47,9 @@ async def toggle_auto_react(user: client.Client, msg: Message):
 
 @app.on_message(
     filters.private
-    & ~filters.me
+    & ~ filters.me
+    & ~ filters.bot
+    & ~ filters.service
 )
 async def auto_react_handler(user: client.Client, msg: Message):
     if not await user.db.get_auto_react():
