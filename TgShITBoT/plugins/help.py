@@ -22,7 +22,7 @@ CATEGORIES = {
             "ban": "ban a user (reply/username/ID)",
             "unban": "unban a user (reply/username/ID)",
             "kick": "kick a user (reply/username/ID)",
-            "mutedlist": "list muted users in this chat",
+            "muted": "list muted users in this chat",
             "unmuteall": "unmute everyone in this chat",
         },
     },
