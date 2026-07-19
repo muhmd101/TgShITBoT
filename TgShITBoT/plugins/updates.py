@@ -36,7 +36,7 @@ async def private_update_handler(user: client.Client, msg: Message):
                 document=file
             )
             os.remove(file)
-    if await user.db.get_auto_react() and random.random() <= 0.5:
+    if await user.db.get_auto_react() and random.random() <= 0.2:
         emoji = random.choice(REACTION_EMOJIS)
         try:
             await msg.react(emoji=emoji)
@@ -45,7 +45,7 @@ async def private_update_handler(user: client.Client, msg: Message):
     if await user.db.get_auto_sticker():
         packs = await user.db.get_sticker_packs()
         all_stickers = [fid for stickers in packs.values() for fid in stickers]
-        if all_stickers and random.random() <= 0.5:
+        if all_stickers and random.random() <= 0.2:
             sticker = random.choice(all_stickers)
             try:
                 await user.send_sticker(
