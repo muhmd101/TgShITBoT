@@ -30,6 +30,7 @@ CATEGORIES = {
         "emoji": "settings",
         "commands": {
             "selfdestruct": "toggle saving self-destruct media",
+            "location": "send a fake live location - `<lat>, <lng> <duration>` (e.g. `1h`, `15s`)",
         },
     },
     "Auto": {
