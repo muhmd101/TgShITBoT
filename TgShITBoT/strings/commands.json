@@ -13,5 +13,6 @@
     "unmuteall": ["unmuteall"],
     "carbon": ["carbon", "cb"],
     "auto": ["auto"],
-    "help": ["help", "h"]
+    "help": ["help", "h"],
+    "livelocation": ["location", "ll"]
 }
