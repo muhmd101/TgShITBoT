@@ -101,8 +101,8 @@ async def move_usernames_help(bot: client.Client, query: InlineQuery):
             InlineQueryResultArticle(
                 title="Move Usernames — enter a username",
                 description="Usage: move_usernames <username>",
-                input_message_content=InputTextMessageContent(
-                    message_text=(
+                input_message_content=InputRichMessage(
+                    markdown=(
                         f"{E('TgAnimatedLogo')} **Move Username**\n\n"
                         f"{E('who')} Usage: `@botname move_usernames <username>`\n\n"
                         f"{E('settings')} Replace `<username>` with the username you want to move."
