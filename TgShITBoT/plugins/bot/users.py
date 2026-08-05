@@ -1,9 +1,8 @@
-import asyncio
-
 from pyrogram import client, filters
 from pyrogram.types import (
     InlineQueryResultArticle,
     InputTextMessageContent,
+    InputRichMessage,
     InlineKeyboardMarkup,
     InlineKeyboardButton,
     InlineQuery,
@@ -11,9 +10,13 @@ from pyrogram.types import (
 )
 from TgShITBoT.strings import get_emoji
 from TgShITBoT.Client import bot, app
+import asyncio
 
 E = lambda name: get_emoji(name, markdown=True)
 I = lambda name: str(get_emoji(name))
+
+def _is_owner(user_id: int) -> bool:
+    return user_id == app.me.id
 
 def _direction_buttons(target: str) -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup([
@@ -66,6 +69,8 @@ def _summary_text(direction: str, target: str) -> str:
 
 @bot.on_inline_query(filters.regex(r"^move_usernames\s+@?(\w+)$"))
 async def move_usernames(bot: client.Client, query: InlineQuery):
+    if not _is_owner(query.from_user.id):
+        return
     target = query.matches[0].group(1)
 
     await query.answer(
@@ -73,8 +78,8 @@ async def move_usernames(bot: client.Client, query: InlineQuery):
             InlineQueryResultArticle(
                 title="Move Username",
                 description=f"Move @{target} between your profile and a channel",
-                input_message_content=InputTextMessageContent(
-                    message_text=(
+                input_message_content=InputRichMessage(
+                    markdown=(
                         f"{E('TgAnimatedLogo')} **Move Username**\n\n"
                         f"{E('atsign')} Target: `@{target}`\n\n"
                         f"{E('who')} Choose the direction:"
@@ -89,6 +94,8 @@ async def move_usernames(bot: client.Client, query: InlineQuery):
 
 @bot.on_inline_query(filters.regex(r"^move_usernames\s*$"))
 async def move_usernames_help(bot: client.Client, query: InlineQuery):
+    if not _is_owner(query.from_user.id):
+        return
     await query.answer(
         results=[
             InlineQueryResultArticle(
@@ -108,6 +115,8 @@ async def move_usernames_help(bot: client.Client, query: InlineQuery):
 
 @bot.on_callback_query(filters.regex(r"^move:(c2p|p2c):(\w+)$"))
 async def move_direction_selected(bot: client.Client, cb: CallbackQuery):
+    if not _is_owner(cb.from_user.id):
+        return await cb.answer("⛔ Not allowed.", show_alert=True)
     direction = cb.matches[0].group(1)
     target = cb.matches[0].group(2)
     await cb.edit_message_text(
@@ -118,6 +127,8 @@ async def move_direction_selected(bot: client.Client, cb: CallbackQuery):
 
 @bot.on_callback_query(filters.regex(r"^move_exec:(c2p|p2c):(\w+)$"))
 async def move_execute(bot: client.Client, cb: CallbackQuery):
+    if not _is_owner(cb.from_user.id):
+        return await cb.answer("⛔ Not allowed.", show_alert=True)
     direction = cb.matches[0].group(1)
     target = cb.matches[0].group(2)
     user: client.Client = app
@@ -153,6 +164,8 @@ async def move_execute(bot: client.Client, cb: CallbackQuery):
 
 @bot.on_callback_query(filters.regex(r"^move_cancel$"))
 async def move_cancel(bot: client.Client, cb: CallbackQuery):
+    if not _is_owner(cb.from_user.id):
+        return await cb.answer("⛔ Not allowed.", show_alert=True)
     await cb.edit_message_text(
         f"{E('CrossMark')} **Cancelled.** No changes were made."
     )
