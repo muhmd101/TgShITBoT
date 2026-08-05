@@ -2,6 +2,7 @@ from pyrogram import client, filters
 from pyrogram.types import (
     InlineQueryResultArticle,
     InputTextMessageContent,
+    InputRichMessageContent,
     InputRichMessage,
     InlineKeyboardMarkup,
     InlineKeyboardButton,
@@ -78,11 +79,13 @@ async def move_usernames(bot: client.Client, query: InlineQuery):
             InlineQueryResultArticle(
                 title="Move Username",
                 description=f"Move @{target} between your profile and a channel",
-                input_message_content=InputRichMessage(
-                    markdown=(
-                        f"{E('TgAnimatedLogo')} **Move Username**\n\n"
-                        f"{E('atsign')} Target: `@{target}`\n\n"
-                        f"{E('who')} Choose the direction:"
+                input_message_content=InputRichMessageContent(
+                    rich_message=InputRichMessage(
+                        markdown=(
+                            f"{E('TgAnimatedLogo')} **Move Username**\n\n"
+                            f"{E('atsign')} Target: `@{target}`\n\n"
+                            f"{E('who')} Choose the direction:"
+                        ),
                     ),
                 ),
                 reply_markup=_direction_buttons(target),
@@ -101,11 +104,13 @@ async def move_usernames_help(bot: client.Client, query: InlineQuery):
             InlineQueryResultArticle(
                 title="Move Usernames — enter a username",
                 description="Usage: move_usernames <username>",
-                input_message_content=InputRichMessage(
-                    markdown=(
-                        f"{E('TgAnimatedLogo')} **Move Username**\n\n"
-                        f"{E('who')} Usage: `@botname move_usernames <username>`\n\n"
-                        f"{E('settings')} Replace `<username>` with the username you want to move."
+                input_message_content=InputRichMessageContent(
+                    rich_message=InputRichMessage(
+                        markdown=(
+                            f"{E('TgAnimatedLogo')} **Move Username**\n\n"
+                            f"{E('who')} Usage: `@botname move_usernames <username>`\n\n"
+                            f"{E('settings')} Replace `<username>` with the username you want to move."
+                        ),
                     ),
                 ),
             ),
