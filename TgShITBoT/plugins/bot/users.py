@@ -150,12 +150,11 @@ async def move_execute(bot: client.Client, cb: CallbackQuery):
             await asyncio.sleep(5)
             await user.set_username(username=target)
         else:
-            chat = await user.get_chat(target)
-            old_profile = me.username
+            chat = await user.create_channel(title=f"Hold {target}")
+            await asyncio.sleep(2)
             await user.set_username(username="")
             await asyncio.sleep(5)
-            if old_profile:
-                await user.set_chat_username(chat_id=chat.id, username=old_profile)
+            await user.set_chat_username(chat_id=chat.id, username=target)
         await cb.edit_message_text(
             f"{E('CheckMark')} **Done!** Username moved successfully."
         )
