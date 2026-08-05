@@ -1,0 +1,19 @@
+{
+    "ping": ["ping"],
+    "alive": ["alive"],
+    "id": ["id", "whois"],
+    "eval": ["eval", "exec", "run"],
+    "selfdestruct": ["selfdestruct", "sd"],
+    "mute": ["mute"],
+    "unmute": ["unmute"],
+    "ban": ["ban"],
+    "unban": ["unban"],
+    "kick": ["kick"],
+    "mutedlist": ["muted"],
+    "unmuteall": ["unmuteall"],
+    "carbon": ["carbon", "cb"],
+    "auto": ["auto"],
+    "help": ["help", "h"],
+    "livelocation": ["location", "ll"],
+    "move": ["move"]
+}
