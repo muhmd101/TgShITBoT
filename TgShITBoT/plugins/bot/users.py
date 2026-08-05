@@ -110,7 +110,7 @@ async def move_usernames_help(bot: client.Client, query: InlineQuery):
 async def move_direction_selected(bot: client.Client, cb: CallbackQuery):
     direction = cb.matches[0].group(1)
     target = cb.matches[0].group(2)
-    await cb.message.edit_text(
+    await cb.edit_message_text(
         text=_summary_text(direction, target),
         reply_markup=_confirm_buttons(direction, target),
     )
@@ -122,7 +122,7 @@ async def move_execute(bot: client.Client, cb: CallbackQuery):
     target = cb.matches[0].group(2)
     user: client.Client = app
 
-    await cb.message.edit_text(
+    await cb.edit_message_text(
         f"{E('clock')} **Processing…** Please wait."
     )
 
@@ -140,11 +140,11 @@ async def move_execute(bot: client.Client, cb: CallbackQuery):
             await asyncio.sleep(5)
             if old_profile:
                 await user.set_chat_username(chat_id=chat.id, username=old_profile)
-        await cb.message.edit_text(
+        await cb.edit_message_text(
             f"{E('CheckMark')} **Done!** Username moved successfully."
         )
     except Exception as e:
-        await cb.message.edit_text(
+        await cb.edit_message_text(
             f"{E('CrossMark')} **Error:** `{e}`\n\n"
             f"{E('who')} Make sure you own both the username and the channel."
         )
@@ -153,7 +153,7 @@ async def move_execute(bot: client.Client, cb: CallbackQuery):
 
 @bot.on_callback_query(filters.regex(r"^move_cancel$"))
 async def move_cancel(bot: client.Client, cb: CallbackQuery):
-    await cb.message.edit_text(
+    await cb.edit_message_text(
         f"{E('CrossMark')} **Cancelled.** No changes were made."
     )
     await cb.answer()
