@@ -87,3 +87,31 @@ class DataBase:
 
     async def is_muted_global(self, user_id: int) -> bool:
         return await self.redis.sismember(self._k("muted_global"), user_id)
+
+    # ── Admin Folder ──
+
+    async def set_admin_folder_id(self, folder_id: int) -> None:
+        await self.redis.set(self._k("admin_folder_id"), str(folder_id))
+
+    async def get_admin_folder_id(self) -> int | None:
+        value = await self.redis.get(self._k("admin_folder_id"))
+        return int(value) if value else None
+
+    async def delete_admin_folder_id(self) -> None:
+        await self.redis.delete(self._k("admin_folder_id"))
+
+    async def set_admin_chats(self, chat_ids: set[int]) -> None:
+        key = self._k("admin_chats")
+        await self.redis.delete(key)
+        if chat_ids:
+            await self.redis.sadd(key, *[str(c) for c in chat_ids])
+
+    async def get_admin_chats(self) -> set[int]:
+        members = await self.redis.smembers(self._k("admin_chats"))
+        return {int(m) for m in members}
+
+    async def add_admin_chat(self, chat_id: int) -> None:
+        await self.redis.sadd(self._k("admin_chats"), str(chat_id))
+
+    async def remove_admin_chat(self, chat_id: int) -> None:
+        await self.redis.srem(self._k("admin_chats"), str(chat_id))

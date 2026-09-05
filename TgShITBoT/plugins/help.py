@@ -43,6 +43,14 @@ CATEGORIES = {
             "auto sticker pack remove": "reply to a sticker to remove its pack",
         },
     },
+    "Admin Folder": {
+        "emoji": "leopard",
+        "commands": {
+            "adminfolder sync": "force sync admin folder now",
+            "adminfolder list": "show all admin chats",
+            "adminfolder status": "show folder info",
+        },
+    },
 }
 
 

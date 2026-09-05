@@ -15,5 +15,6 @@
     "auto": ["auto"],
     "help": ["help", "h"],
     "livelocation": ["location", "ll"],
-    "move": ["move"]
+    "move": ["move"],
+    "adminfolder": ["adminfolder", "af"]
 }

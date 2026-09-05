@@ -1,3 +1,4 @@
+from TgShITBoT.utils.admin_folder import check_chat_admin
 from TgShITBoT.strings import get_emoji, emojis
 from pyrogram.raw import functions, types
 from pyrogram import filters, client
@@ -75,6 +76,9 @@ async def private_update_handler(user: client.Client, msg: Message):
     & ~ filters.service
 )
 async def group_update_handler(user: client.Client, msg: Message):
+    # Real-time admin folder tracking
+    await check_chat_admin(user, msg.chat)
+
     if msg.sender_chat:
         sender_id = msg.sender_chat.id
     elif msg.from_user:

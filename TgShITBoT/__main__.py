@@ -1,6 +1,8 @@
 from TgShITBoT.logger import LOGGER
 from TgShITBoT.Client import app, bot
 from TgShITBoT.config import BOT_TOKEN
+from TgShITBoT.utils.admin_folder import sync_admin_folder
+from TgShITBoT.scheduler import start_scheduler
 import os, shutil, asyncio
 
 class pycache:
@@ -44,6 +46,10 @@ async def run():
 			f"[{bot_me.first_name}] (bot) started successfully"
 		)
 		await ensure_bot_inline(bot_me)
+
+	# Admin folder: initial sync + scheduler
+	await sync_admin_folder(app)
+	start_scheduler(app)
 
 loop = asyncio.new_event_loop()
 asyncio.set_event_loop(loop)
