@@ -62,6 +62,7 @@ async def sync_admin_folder(client) -> None:
             new_folder_id = await client.create_folder(
                 name=ADMIN_FOLDER_NAME,
                 included_chats=list(new_ids),
+                excluded_chats=["me"],
             )
             await client.db.set_admin_folder_id(new_folder_id)
             await client.db.set_admin_chats(new_ids)
@@ -76,6 +77,7 @@ async def sync_admin_folder(client) -> None:
                     folder_id=folder_id,
                     name=ADMIN_FOLDER_NAME,
                     included_chats=list(new_ids) if new_ids else [],
+                    excluded_chats=["me"],
                 )
                 await client.db.set_admin_chats(new_ids)
                 added = new_ids - old_ids
@@ -124,6 +126,7 @@ async def check_chat_admin(client, chat) -> None:
                     folder_id=folder_id,
                     name=ADMIN_FOLDER_NAME,
                     included_chats=list(new_chats),
+                    excluded_chats=["me"],
                 )
                 log.info(f"Added chat {chat_id} to admin folder.")
             else:
@@ -132,6 +135,7 @@ async def check_chat_admin(client, chat) -> None:
                 new_folder_id = await client.create_folder(
                     name=ADMIN_FOLDER_NAME,
                     included_chats=list(new_chats),
+                    excluded_chats=["me"],
                 )
                 await client.db.set_admin_folder_id(new_folder_id)
                 log.info(
@@ -150,6 +154,7 @@ async def check_chat_admin(client, chat) -> None:
                         folder_id=folder_id,
                         name=ADMIN_FOLDER_NAME,
                         included_chats=list(new_chats),
+                        excluded_chats=["me"],
                     )
                 else:
                     await client.delete_folder(folder_id)
