@@ -74,6 +74,7 @@ async def sync_admin_folder(client) -> None:
             if new_ids != old_ids:
                 await client.edit_folder(
                     folder_id=folder_id,
+                    name=ADMIN_FOLDER_NAME,
                     included_chats=list(new_ids) if new_ids else [],
                 )
                 await client.db.set_admin_chats(new_ids)
@@ -121,6 +122,7 @@ async def check_chat_admin(client, chat) -> None:
                 new_chats = tracked | {chat_id}
                 await client.edit_folder(
                     folder_id=folder_id,
+                    name=ADMIN_FOLDER_NAME,
                     included_chats=list(new_chats),
                 )
                 log.info(f"Added chat {chat_id} to admin folder.")
@@ -146,6 +148,7 @@ async def check_chat_admin(client, chat) -> None:
                 if new_chats:
                     await client.edit_folder(
                         folder_id=folder_id,
+                        name=ADMIN_FOLDER_NAME,
                         included_chats=list(new_chats),
                     )
                 else:
